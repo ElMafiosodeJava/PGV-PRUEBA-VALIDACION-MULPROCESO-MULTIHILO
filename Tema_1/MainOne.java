@@ -24,7 +24,7 @@ public class MainOne {
         List<Process> processes = new ArrayList<>();
         List<File> outFiles = new ArrayList<>();
 
-        String cp = System.getProperty("java.class.path");
+        String classPath = System.getProperty("java.class.path");
 
         int i = 0;
         
@@ -32,28 +32,28 @@ public class MainOne {
 
             File outFile = new File("Paragraph" + i + ".txt");
 
-            ProcessBuilder pb = new ProcessBuilder(
+            ProcessBuilder processBuilder = new ProcessBuilder(
                     "java",
-                    "-cp", cp,
+                    "-cp", classPath,
                     "Tema_1.ParagraphProcess",
                     word,
                     String.valueOf(i)
             );
 
            
-            pb.redirectOutput(outFile);
+            processBuilder.redirectOutput(outFile);
 
-            processes.add(pb.start());
+            processes.add(processBuilder.start());
             outFiles.add(outFile);
             i++;
         }
 
 
-        for (Process pr : processes) pr.waitFor();
+        for (Process process : processes) process.waitFor();
 
         int total = 0;
-        for (File f : outFiles) {
-            try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        for (File files : outFiles) {
+            try (BufferedReader br = new BufferedReader(new FileReader(files))) {
                 String line = br.readLine();
                 if (line != null && !line.isBlank()) {
                     total += Integer.parseInt(line.trim());
